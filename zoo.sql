@@ -163,3 +163,40 @@ SELECT continent, COUNT(name) FROM world GROUP BY(continent);
 SELECT continent, COUNT(name) FROM world WHERE population >= 10000000 GROUP BY continent;
 
 SELECT continent FROM world GROUP BY continent HAVING SUM(population) >= 100000000;
+
+/* JOIN and UEFA EURO 2012 */
+
+SELECT matchid, player FROM goal 
+  WHERE teamid = 'GER';
+
+SELECT id,stadium,team1,team2
+  FROM game WHERE id = 1012;
+
+SELECT player, teamid, stadium, mdate
+  FROM game JOIN goal ON (id=matchid) WHERE teamid = 'GER';
+
+SELECT team1, team2, player FROM goal JOIN game ON (goal.matchid = game.id) WHERE player LIKE 'Mario%';
+
+SELECT player, teamid, coach, gtime
+  FROM goal JOIN eteam on teamid=id
+ WHERE gtime<=10;
+
+SELECT mdate, teamname FROM game JOIN eteam ON team1=eteam.id WHERE coach = 'Fernando Santos';
+
+SELECT player FROM goal JOIN game ON matchid=id WHERE stadium = 'National Stadium, Warsaw';
+
+SELECT DISTINCT player
+  FROM game JOIN goal ON matchid = id 
+    WHERE (team1='GER' OR team2='GER') AND teamid NOT IN('GER');
+
+SELECT teamname, COUNT(teamid)
+  FROM eteam JOIN goal ON id=teamid
+ GROUP BY teamname;
+
+SELECT stadium, COUNT(player) FROM goal JOIN game ON matchid = id GROUP BY stadium;
+
+SELECT matchid,mdate, COUNT(teamid)
+  FROM game JOIN goal ON id = matchid 
+ WHERE (team1 = 'POL' OR team2 = 'POL') GROUP BY mdate, matchid ORDER BY matchid;
+
+SELECT matchid, mdate, COUNT(player) FROM goal JOIN game ON matchid = id WHERE teamid = 'GER' GROUP BY matchid, mdate ORDER BY matchid;
