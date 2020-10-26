@@ -261,3 +261,30 @@ SELECT teacher.name,
          ELSE 'None'
        END
 FROM teacher;
+
+/* NSS Tutorial */
+
+SELECT A_STRONGLY_AGREE
+  FROM nss
+ WHERE question='Q01'
+   AND institution='Edinburgh Napier University'
+   AND subject='(8) Computer Science';
+
+SELECT institution, subject
+  FROM nss
+ WHERE score>=100 AND question='Q15';
+
+SELECT institution, score
+  FROM nss
+ WHERE score<50 AND question='Q15' AND subject='(8) Computer Science';
+
+SELECT subject, SUM(response)
+  FROM nss
+ WHERE question='Q22'
+   AND subject IN ('(8) Computer Science', '(H) Creative Arts and Design') GROUP BY subject;
+
+SELECT subject, SUM(response * A_STRONGLY_AGREE/100) 
+  FROM nss
+ WHERE question='Q22'
+   AND subject IN ('(8) Computer Science', '(H) Creative Arts and Design') GROUP BY subject;
+
